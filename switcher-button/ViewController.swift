@@ -8,80 +8,77 @@
 import UIKit
 
 class ViewController: UIViewController {
-    var button: UIButton!
-    var uiswitch: UISwitch!
-    var switchLabel: UILabel!
-    var firstClick = true
+    var playButton: UIButton!
+    var switcher: UISwitch!
+    var instructionLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         initSwitchLabel()
         initButton()
         initUISwitch()
-        constructHierrarchy()
-        initConstraints()
-        uiswitch.addTarget(self, action: #selector(self.switchValueDidChange), for: .valueChanged)
-        button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+        constructHierarchy()
+        activateConstraints()
+        switcher.addTarget(self, action: #selector(switchValueDidChange), for: .valueChanged)
+        playButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
     }
     
-    
-    @objc func switchValueDidChange(sender:UISwitch!) {
-        if firstClick {
-            button.isEnabled = true
+    @objc func switchValueDidChange(sender: UISwitch) {
+        if sender.isOn {
+            playButton.backgroundColor = .systemBlue
         } else {
-            button.isEnabled = false
+            playButton.backgroundColor = .systemGray
         }
-        firstClick.toggle()
+        playButton.isEnabled = sender.isOn
     }
     
     @objc func buttonTapped() {
-        button.backgroundColor = .systemOrange
+        print("OKAY")
     }
     
 }
-
 extension ViewController {
     fileprivate func initSwitchLabel() {
-        switchLabel = UILabel()
-        switchLabel.text = "Enable the Button"
-        switchLabel.textColor = .black
-        switchLabel.translatesAutoresizingMaskIntoConstraints = false
+        instructionLabel = UILabel()
+        instructionLabel.text = "Enable the Button"
+        instructionLabel.textColor = .black
+        instructionLabel.translatesAutoresizingMaskIntoConstraints = false
     }
     
     fileprivate func initUISwitch() {
-        uiswitch = UISwitch()
-        uiswitch.setOn(false, animated: true)
-        uiswitch.translatesAutoresizingMaskIntoConstraints = false
+        switcher = UISwitch()
+        switcher.setOn(false, animated: true)
+        switcher.translatesAutoresizingMaskIntoConstraints = false
     }
     
     fileprivate func initButton() {
-        button = UIButton()
-        button.backgroundColor = .systemBlue
-        button.setTitle("PLAY", for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.layer.cornerRadius = 10
-        button.isEnabled = false
-        button.translatesAutoresizingMaskIntoConstraints = false
+        playButton = UIButton(type: .system)
+        playButton.backgroundColor = .systemGray
+        playButton.setTitle("PLAY", for: .normal)
+        playButton.setTitleColor(.white, for: .normal)
+        playButton.layer.cornerRadius = 10
+        playButton.isEnabled = false
+        playButton.translatesAutoresizingMaskIntoConstraints = false
     }
     
-    fileprivate func constructHierrarchy() {
-        view.addSubview(switchLabel)
-        view.addSubview(uiswitch)
-        view.addSubview(button)
+    fileprivate func constructHierarchy() {
+        view.addSubview(instructionLabel)
+        view.addSubview(switcher)
+        view.addSubview(playButton)
     }
     
-    fileprivate func initConstraints() {
+    fileprivate func activateConstraints() {
         NSLayoutConstraint.activate([
-            switchLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            switchLabel.bottomAnchor.constraint(equalTo: uiswitch.topAnchor, constant: -10),
+            instructionLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            instructionLabel.bottomAnchor.constraint(equalTo: switcher.topAnchor, constant: -10),
             
-            uiswitch.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            uiswitch.bottomAnchor.constraint(equalTo: button.topAnchor, constant: -100),
+            switcher.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            switcher.bottomAnchor.constraint(equalTo: playButton.topAnchor, constant: -100),
             
-            button.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            button.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            button.heightAnchor.constraint(equalToConstant: 50),
-            button.widthAnchor.constraint(equalToConstant: 150)
+            playButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            playButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            playButton.heightAnchor.constraint(equalToConstant: 50),
+            playButton.widthAnchor.constraint(equalToConstant: 150)
         ])
     }
 }
